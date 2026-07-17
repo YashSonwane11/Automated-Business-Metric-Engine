@@ -1,0 +1,32 @@
+<div class="login-shell">
+  <mat-card class="login-card">
+    <div class="login-card__header">
+      <div>
+        <span class="login-card__brand">Metric Engine</span>
+        <p class="login-card__subtitle">Enterprise analytics and batch orchestration.</p>
+      </div>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" class="login-form">
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" autocomplete="current-password" />
+      </mat-form-field>
+
+      <mat-checkbox formControlName="remember">Remember Me</mat-checkbox>
+
+      <button mat-flat-button color="primary" class="login-button" type="submit" [disabled]="isBusy()">
+        Sign In
+      </button>
+
+      <div class="login-footer">
+        <a href="#">Forgot Password?</a>
+      </div>
+    </form>
+  </mat-card>
+</div>

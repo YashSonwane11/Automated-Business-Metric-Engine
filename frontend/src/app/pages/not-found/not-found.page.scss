@@ -1,0 +1,22 @@
+.not-found-shell {
+  min-height: calc(100vh - 64px);
+  display: grid;
+  place-items: center;
+}
+
+.not-found-card {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(12, 18, 33, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.not-found-card h1 {
+  margin: 0;
+  font-size: 4rem;
+}
+
+.not-found-card p {
+  color: rgba(255, 255, 255, 0.74);
+  margin: 1rem 0 1.5rem;
+}

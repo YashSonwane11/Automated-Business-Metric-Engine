@@ -1,0 +1,16 @@
+order_id,order_date,customer_id,customer_name,category,product_name,quantity,unit_price,discount,payment_method,region
+ORD001,2026-05-01,C001,Yash,Electronics,Mouse,2,500,50,UPI,West
+ORD002,2026-05-01,C002,Amit,Fashion,T-Shirt,3,700,100,CARD,North
+ORD003,2026-05-02,C003,Rahul,Electronics,Keyboard,1,1200,0,CASH,West
+ORD004,2026-05-02,C004,Priya,Grocery,Rice Bag,2,900,100,UPI,South
+ORD005,2026-05-03,C005,Neha,Fashion,Shoes,1,2500,300,CARD,East
+ORD006,2026-05-03,C006,Rohan,Electronics,Monitor,1,8000,500,UPI,West
+ORD007,2026-05-04,C007,Sneha,Grocery,Oil Pack,4,250,50,CASH,South
+ORD008,2026-05-04,C008,Akash,Fashion,Jeans,2,1500,200,CARD,North
+ORD009,2026-05-05,C009,Meera,Electronics,Laptop Stand,1,1800,100,UPI,West
+ORD010,2026-05-05,C010,Karan,Grocery,Sugar,5,60,0,CASH,East
+ORD011, 2026-05-06 ,C011,  Anjali  ,Electronics,USB Cable,3,200,0,UPI,West
+ORD012,2026/05/06,C012,Vikas,Fashion,Cap,2,300,20,CARD,North
+ORD013,,C013,Invalid Date User,Grocery,Wheat,2,500,50,CASH,South
+ORD014,2026-05-07,C014,Null Quantity,Electronics,Speaker,,1500,100,UPI,West
+ORD015,2026-05-07,C015,Bad Price,Fashion,Jacket,1,abc,200,CARD,East

@@ -1,0 +1,26 @@
+.generic-card {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(11, 17, 31, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.generic-card__header h1 {
+  margin: 0 0 0.5rem 0;
+}
+
+.generic-card__header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.generic-card__body {
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.generic-card__body a {
+  margin-top: 1rem;
+  display: inline-block;
+}

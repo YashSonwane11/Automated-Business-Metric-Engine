@@ -1,0 +1,208 @@
+<div class="dashboard-shell">
+  <div class="dashboard-top">
+    <div class="dashboard-heading">
+      <div>
+        <span class="dashboard-title-tag">Executive Summary</span>
+        <h1>Operational business metrics</h1>
+        <p>Real-time trend charts, daily summaries, and KPI performance from the metric engine backend.</p>
+      </div>
+    </div>
+
+    <div class="dashboard-kpis">
+      <app-kpi-card
+        label="Total Revenue"
+        [value]="summary().totalRevenue | number:'1.0-0'"
+        subtitle="Gross revenue across all categories"
+        icon="attach_money"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Net Revenue"
+        [value]="summary().netRevenue | number:'1.0-0'"
+        subtitle="Revenue after discount and fees"
+        icon="paid"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Total Orders"
+        [value]="summary().totalOrders"
+        subtitle="Orders processed in the dataset"
+        icon="shopping_cart"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Distinct Days"
+        [value]="summary().distinctDays"
+        subtitle="Reporting dates captured"
+        icon="calendar_today"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Top Category"
+        [value]="summary().topCategory"
+        subtitle="Category with highest revenue"
+        icon="category"
+      ></app-kpi-card>
+
+      <app-kpi-card
+        label="Rolling Revenue"
+        [value]="summary().rollingRevenue | number:'1.0-0'"
+        subtitle="7-day rolling revenue total"
+        icon="trending_up"
+      ></app-kpi-card>
+    </div>
+  </div>
+
+  <div class="dashboard-actions" *ngIf="error()">
+    <mat-card class="dashboard-error-card">
+      <div class="dashboard-error-card__icon">
+        <mat-icon fontSet="material-symbols-outlined">error_outline</mat-icon>
+      </div>
+      <div>
+        <h3>Unable to load dashboard data</h3>
+        <p>{{ error() }}</p>
+        <button mat-stroked-button color="primary" (click)="reload()">Retry</button>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-chart-grid" style="grid-template-columns: 1fr;">
+    <mat-card class="dashboard-card">
+      <div class="dashboard-card__header">
+        <h2>Revenue Trend</h2>
+      </div>
+      <div class="dashboard-card__body chart-card__body">
+        <ng-container *ngIf="!loading() && !error(); else trendLoading">
+          <canvas baseChart [data]="revenueTrend().data" [options]="revenueTrend().options" [type]="revenueTrend().type"></canvas>
+        </ng-container>
+        <ng-template #trendLoading>
+          <div class="chart-placeholder">
+            <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+            <span>Loading revenue trend...</span>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-chart-grid">
+    <mat-card class="dashboard-card">
+      <div class="dashboard-card__header">
+        <h2>Category Revenue</h2>
+      </div>
+      <div class="dashboard-card__body chart-card__body">
+        <ng-container *ngIf="!loading() && !error(); else barLoading">
+          <canvas baseChart [data]="categoryBar().data" [options]="categoryBar().options" [type]="categoryBar().type"></canvas>
+        </ng-container>
+        <ng-template #barLoading>
+          <div class="chart-placeholder">
+            <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+            <span>Loading category revenue...</span>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card>
+
+    <mat-card class="dashboard-card pie-card">
+      <div class="dashboard-card__header">
+        <h2>Revenue Distribution</h2>
+      </div>
+      <div class="dashboard-card__body chart-card__body">
+        <ng-container *ngIf="!loading() && !error(); else pieLoading">
+          <canvas baseChart [data]="revenuePie().data" [options]="revenuePie().options" [type]="revenuePie().type"></canvas>
+        </ng-container>
+        <ng-template #pieLoading>
+          <div class="chart-placeholder">
+            <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+            <span>Loading revenue distribution...</span>
+          </div>
+        </ng-template>
+      </div>
+    </mat-card>
+  </div>
+
+  <mat-card class="dashboard-card dashboard-summary-card">
+    <div class="dashboard-card__header">
+      <div>
+        <h2>Daily Summary</h2>
+        <p class="dashboard-card__meta">Latest metrics by date and category, sorted and searchable.</p>
+      </div>
+      <mat-form-field appearance="outline" class="summary-filter">
+        <input matInput placeholder="Search by date or category" [value]="filter()" (input)="applyFilter($any($event.target).value)" />
+        <button mat-icon-button matSuffix aria-label="Clear filter" *ngIf="filter()" (click)="applyFilter('')">
+          <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+    <div class="dashboard-card__body">
+      <div *ngIf="loading()" class="table-placeholder">
+        <mat-progress-spinner mode="indeterminate" diameter="48"></mat-progress-spinner>
+      </div>
+
+      <div *ngIf="!loading() && !error()">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+          <ng-container matColumnDef="metric_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+            <td mat-cell *matCellDef="let item">{{ item.metric_date }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+            <td mat-cell *matCellDef="let item">{{ item.category }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="total_orders">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Orders</th>
+            <td mat-cell *matCellDef="let item">{{ item.total_orders }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="gross_revenue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Revenue</th>
+            <td mat-cell *matCellDef="let item">{{ item.gross_revenue | number:'1.0-0' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="net_revenue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Net Revenue</th>
+            <td mat-cell *matCellDef="let item">{{ item.net_revenue | number:'1.0-0' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns; trackBy: trackByIndex" class="summary-row"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </mat-card>
+
+  <div class="dashboard-secondary-grid">
+    <mat-card class="dashboard-card dashboard-empty-card">
+      <div class="dashboard-card__header">
+        <h2>Top Products</h2>
+      </div>
+      <div class="dashboard-card__body empty-state">
+        <p>Top products are not available from the current API response.</p>
+        <p class="small">Implement a backend endpoint such as <code>/api/metrics/top-products</code> to populate this section.</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="dashboard-card dashboard-empty-card">
+      <div class="dashboard-card__header">
+        <h2>Recent Batch Jobs</h2>
+      </div>
+      <div class="dashboard-card__body empty-state">
+        <p>Batch job history is not available from the current backend. Add <code>/api/jobs/recent</code> or a job status API to enable this feature.</p>
+      </div>
+    </mat-card>
+
+    <mat-card class="dashboard-card dashboard-empty-card">
+      <div class="dashboard-card__header">
+        <h2>Recent Uploads</h2>
+      </div>
+      <div class="dashboard-card__body empty-state">
+        <p>Upload history is not available from the current backend. Implement <code>/api/uploads/recent</code> to show CSV ingestion activity.</p>
+      </div>
+    </mat-card>
+  </div>
+</div>

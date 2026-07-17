@@ -1,0 +1,124 @@
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+:root {
+  color-scheme: light dark;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  
+  /* Light Theme Variables (Default) */
+  --bg-color: #f8fafc;
+  --bg-gradient: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --hover-bg: #f3f4f6;
+  --header-bg: #ffffff;
+  --shadow-color: rgba(15, 23, 42, 0.08);
+}
+
+body.dark-theme {
+  --bg-color: #0f172a;
+  --bg-gradient: radial-gradient(circle at top, rgba(63, 81, 181, 0.15), transparent 25%), linear-gradient(180deg, #070a12 0%, #101624 100%);
+  --sidebar-bg: #1e293b;
+  --card-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --hover-bg: #334155;
+  --header-bg: #1e293b;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+
+  /* Angular Material Class Overrides for Dark Mode */
+  mat-card, .mat-mdc-card {
+    background-color: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+    --mdc-elevated-card-container-color: var(--card-bg);
+  }
+  mat-table, .mat-mdc-table {
+    background-color: var(--card-bg) !important;
+  }
+  mat-header-cell, .mat-mdc-header-cell {
+    color: var(--text-secondary) !important;
+    border-bottom-color: var(--border-color) !important;
+  }
+  mat-cell, .mat-mdc-cell {
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border-color) !important;
+  }
+  mat-row:hover mat-cell, .mat-mdc-row:hover .mat-mdc-cell {
+    background-color: var(--hover-bg) !important;
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: var(--border-color) !important;
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: var(--text-primary) !important;
+  }
+  .mat-mdc-select-value-text, mat-select {
+    color: var(--text-primary) !important;
+  }
+  .mat-mdc-select-arrow {
+    color: var(--text-muted) !important;
+  }
+  
+  .mat-body-1, .mat-headline-6 {
+    color: var(--text-primary) !important;
+  }
+  
+  .mat-mdc-button:not(.mat-primary):not(.mat-accent):not(.mat-warn),
+  .mat-mdc-outlined-button:not(.mat-primary):not(.mat-accent):not(.mat-warn),
+  .mat-mdc-unelevated-button:not(.mat-primary):not(.mat-accent):not(.mat-warn) {
+    color: var(--text-primary) !important;
+    --mdc-text-button-label-text-color: var(--text-primary);
+    --mdc-outlined-button-label-text-color: var(--text-primary);
+  }
+
+  .mat-mdc-icon-button {
+    color: var(--text-secondary) !important;
+  }
+
+  .mat-mdc-outlined-button {
+    --mdc-outlined-button-outline-color: var(--border-color);
+    border-color: var(--border-color) !important;
+  }
+  
+  color: var(--text-primary);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  color: var(--text-primary);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg-gradient);
+}
+
+body {
+  color: var(--text-primary);
+}
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+.mat-mdc-button, .mat-mdc-icon-button, .mat-mdc-raised-button {
+  text-transform: none;
+}
+
+.router-link-active,
+.active-link {
+  color: #ffffff;
+}

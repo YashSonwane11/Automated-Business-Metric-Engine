@@ -1,0 +1,80 @@
+<div class="page-header">
+  <div class="page-title-group">
+    <h1 class="mat-headline-4">Reports</h1>
+    <p class="mat-body-1 text-muted">Generate and download business metric reports.</p>
+  </div>
+  <div class="header-actions">
+    <button mat-stroked-button (click)="exportPdf()">
+      <mat-icon fontSet="material-symbols-outlined">picture_as_pdf</mat-icon>
+      Export PDF
+    </button>
+    <button mat-stroked-button (click)="exportExcel()">
+      <mat-icon fontSet="material-symbols-outlined">table_view</mat-icon>
+      Export Excel
+    </button>
+    <button mat-stroked-button (click)="exportCsv()">
+      <mat-icon fontSet="material-symbols-outlined">csv</mat-icon>
+      Export CSV
+    </button>
+    <button mat-flat-button color="primary" (click)="generateNew()">
+      <mat-icon fontSet="material-symbols-outlined">assessment</mat-icon>
+      Generate Report
+    </button>
+  </div>
+</div>
+
+<mat-card class="table-card">
+  <table mat-table [dataSource]="reports()">
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Report Name </th>
+      <td mat-cell *matCellDef="let report" class="report-name-cell">
+        <mat-icon fontSet="material-symbols-outlined" class="text-muted">description</mat-icon>
+        <span>{{ report.name }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Type </th>
+      <td mat-cell *matCellDef="let report"> {{ report.type }} </td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="generatedDate">
+      <th mat-header-cell *matHeaderCellDef> Generated </th>
+      <td mat-cell *matCellDef="let report" class="text-muted"> {{ report.generatedDate }} </td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let report">
+        <mat-chip 
+          [color]="report.status === 'Ready' ? 'primary' : (report.status === 'Failed' ? 'warn' : 'accent')" 
+          selected>
+          {{ report.status }}
+        </mat-chip>
+      </td>
+    </ng-container>
+
+    <!-- Size Column -->
+    <ng-container matColumnDef="size">
+      <th mat-header-cell *matHeaderCellDef> Size </th>
+      <td mat-cell *matCellDef="let report" class="text-muted"> {{ report.size }} </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef class="actions-header"> Actions </th>
+      <td mat-cell *matCellDef="let report" class="actions-cell">
+        <button mat-icon-button color="primary" (click)="downloadReport(report)" [disabled]="report.status !== 'Ready'" aria-label="Download">
+          <mat-icon fontSet="material-symbols-outlined">download</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>

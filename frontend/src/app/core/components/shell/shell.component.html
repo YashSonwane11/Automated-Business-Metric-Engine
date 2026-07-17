@@ -1,0 +1,65 @@
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav mode="side" opened class="shell-sidenav">
+    <div class="brand">
+      <span class="brand__logo">MB</span>
+      <div>
+        <div class="brand__name">Metric Engine</div>
+        <div class="brand__subtitle">Enterprise Dashboard</div>
+      </div>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item *ngFor="let item of menuItems" [routerLink]="item.path" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <mat-icon fontSet="material-symbols-outlined">{{ item.icon }}</mat-icon>
+        <span>{{ item.label }}</span>
+      </a>
+    </mat-nav-list>
+
+    <div class="shell-support">
+      <div class="shell-support__title">Need help?</div>
+      <div class="shell-support__description">Use the API logs and profile menu for quick access.</div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="shell-toolbar">
+      <div class="shell-toolbar__title">Automated Business Metric Engine</div>
+      <div class="shell-search-wrapper">
+        <mat-form-field appearance="outline" class="shell-search" subscriptSizing="dynamic">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search metrics..." />
+          <button mat-icon-button matSuffix aria-label="Search">
+            <mat-icon fontSet="material-symbols-outlined">search</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <span class="shell-toolbar__spacer"></span>
+      <button mat-icon-button aria-label="Notifications">
+        <mat-icon fontSet="material-symbols-outlined">notifications</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu" aria-label="Profile menu">
+        <mat-icon fontSet="material-symbols-outlined">account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon fontSet="material-symbols-outlined">person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon fontSet="material-symbols-outlined">settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <button mat-menu-item routerLink="/login">
+          <mat-icon fontSet="material-symbols-outlined">logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="shell-content">
+      <div class="page-transition">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

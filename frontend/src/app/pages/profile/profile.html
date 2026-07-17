@@ -1,0 +1,88 @@
+<div class="page-header">
+  <div class="page-title-group">
+    <h1 class="mat-headline-4">My Profile</h1>
+    <p class="mat-body-1 text-muted">Manage your personal information and security settings.</p>
+  </div>
+</div>
+
+<div class="profile-container">
+  <div class="profile-sidebar">
+    <mat-card class="avatar-card">
+      <mat-card-content class="avatar-content">
+        <div class="avatar-circle">
+          {{ user()?.name?.charAt(0) || 'U' }}
+        </div>
+        <h2 class="mat-headline-6">{{ user()?.name }}</h2>
+        <p class="text-muted">{{ user()?.roles?.join(', ') | titlecase }}</p>
+        <button mat-stroked-button color="primary" class="upload-btn">
+          <mat-icon fontSet="material-symbols-outlined">photo_camera</mat-icon>
+          Change Photo
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="profile-main">
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <mat-card-title>Personal Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="form-row split-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName="email" type="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Job Title</mat-label>
+              <input matInput formControlName="title">
+            </mat-form-field>
+          </div>
+          <div class="actions-row">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!profileForm.valid || isSaving()">
+              {{ isSaving() ? 'Saving...' : 'Save Changes' }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="profile-card">
+      <mat-card-header>
+        <mat-card-title>Update Password</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="profile-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Current Password</mat-label>
+              <input matInput formControlName="currentPassword" type="password">
+            </mat-form-field>
+          </div>
+          <div class="form-row split-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>New Password</mat-label>
+              <input matInput formControlName="newPassword" type="password">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput formControlName="confirmPassword" type="password">
+            </mat-form-field>
+          </div>
+          <div class="actions-row">
+            <button mat-stroked-button color="primary" type="submit" [disabled]="!passwordForm.valid">
+              Update Password
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

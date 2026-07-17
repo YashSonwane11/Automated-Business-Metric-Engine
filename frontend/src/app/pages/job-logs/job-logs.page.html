@@ -1,0 +1,76 @@
+<div class="job-logs-shell">
+  <div class="job-logs-header">
+    <div>
+      <span class="page-label">Job Status</span>
+      <h1>Monitor batch executions and service health</h1>
+      <p>Review recent job runs, failures, and performance metrics from the backend.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="runBatch()">
+      <mat-icon fontSet="material-symbols-outlined">play_arrow</mat-icon>
+      Run Batch
+    </button>
+  </div>
+
+  <mat-card class="job-logs-card">
+    <div class="job-logs-card__header">
+      <h2>Recent Batch Jobs</h2>
+    </div>
+
+    <div class="job-logs-card__body">
+      <div *ngIf="loading()" class="job-logs-placeholder">
+        <mat-icon fontSet="material-symbols-outlined">autorenew</mat-icon>
+        <span>Loading job history...</span>
+      </div>
+
+      <div *ngIf="!loading() && !error()">
+        <table mat-table [dataSource]="dataSource" class="job-logs-table" matSort>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="jobName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Job Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.jobName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let row">
+              <span class="status-badge" [class]="'status-' + row.status.toLowerCase()">{{ row.status }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="startedAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Started At</th>
+            <td mat-cell *matCellDef="let row">{{ row.startedAt }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="completedAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Completed At</th>
+            <td mat-cell *matCellDef="let row">{{ row.completedAt || '—' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rowsProcessed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rows Processed</th>
+            <td mat-cell *matCellDef="let row">{{ row.rowsProcessed ?? '—' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="rowsFailed">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rows Failed</th>
+            <td mat-cell *matCellDef="let row">{{ row.rowsFailed ?? '—' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+
+      <div *ngIf="error()" class="job-logs-error">
+        <mat-icon fontSet="material-symbols-outlined">error_outline</mat-icon>
+        {{ error() }}
+      </div>
+    </div>
+  </mat-card>
+</div>
