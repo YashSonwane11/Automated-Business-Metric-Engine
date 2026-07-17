@@ -164,21 +164,6 @@ npm run start
 
 ---
 
-## 📦 Production Deployment
-
-To deploy this application to production, you must host the Backend and Frontend independently.
-
-### Option A: Render.com (Recommended)
-1. **Database:** Create a managed PostgreSQL instance on Render.
-2. **Backend:** Create a new "Web Service", connect this repository, and set the Build Command to `./mvnw clean package` and Start Command to `java -jar target/*.jar`. Provide the `DATABASE_URL` environment variable.
-3. **Frontend:** Create a "Static Site", connect the repo, set the Build Command to `cd frontend && npm install && npm run build`, and set the Publish directory to `frontend/dist`. Update your Angular `environment.prod.ts` to point to the Render Backend URL.
-
-### Option B: Railway.app / Vercel
-- **Railway:** Connect your GitHub repo. Railway will auto-detect the Spring Boot backend and Dockerize it automatically.
-- **Vercel/Netlify:** Link the `frontend/` directory to Vercel for lightning-fast edge hosting of the Angular SPA.
-
----
-
 <div align="center">
   <p>Built with ❤️ for Enterprise Data Pipelines.</p>
 </div>
