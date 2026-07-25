@@ -1,8 +1,0 @@
-com\example\demo\batch\processor\RawSalesItemProcessor.class
-com\example\demo\batch\config\SalesBatchConfig.class
-com\example\demo\controller\MetricsController.class
-com\example\demo\service\MetricsTransformationService.class
-com\example\demo\scheduler\DailyPipelineScheduler.class
-com\example\demo\MetricEngineApplication.class
-com\example\demo\batch\model\RawSalesRecord.class
-com\example\demo\runner\MetricsRunner.class
