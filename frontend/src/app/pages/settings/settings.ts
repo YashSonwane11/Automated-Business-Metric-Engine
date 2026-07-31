@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ThemeService, Theme } from '../../core/services/theme.service';
+import { UploadService } from '../../core/services/upload.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -31,12 +32,14 @@ import { Subscription } from 'rxjs';
 export class Settings implements OnInit, OnDestroy {
   settingsForm: FormGroup;
   isSaving = signal(false);
+  isClearing = signal(false);
   private themeSub?: Subscription;
 
   constructor(
     private fb: FormBuilder, 
     private snackBar: MatSnackBar,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private uploadService: UploadService
   ) {
     this.settingsForm = this.fb.group({
       // Notifications
@@ -92,6 +95,23 @@ export class Settings implements OnInit, OnDestroy {
       apiLogLevel: 'INFO'
     });
     this.snackBar.open('Settings reset to defaults', 'Close', { duration: 3000 });
+  }
+
+  clearDatabase() {
+    if (confirm('Are you absolutely sure you want to delete all database data? This action cannot be undone.')) {
+      this.isClearing.set(true);
+      this.uploadService.clearAllData().subscribe({
+        next: (res) => {
+          this.isClearing.set(false);
+          this.snackBar.open('Database cleared successfully!', 'Close', { duration: 4000 });
+        },
+        error: (err) => {
+          this.isClearing.set(false);
+          const errorMsg = err?.error?.error || err?.message || 'Unknown error occurred';
+          this.snackBar.open('Failed to clear database: ' + errorMsg, 'Close', { duration: 5000 });
+        }
+      });
+    }
   }
 }
 

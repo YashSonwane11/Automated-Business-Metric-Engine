@@ -210,6 +210,20 @@ public class UploadController {
         }
     }
 
+    @PostMapping("/clear")
+    public ResponseEntity<Map<String, Object>> clearAllData() {
+        try {
+            jdbcTemplate.execute("TRUNCATE TABLE business_metrics_summary RESTART IDENTITY CASCADE");
+            jdbcTemplate.execute("TRUNCATE TABLE raw_sales_data RESTART IDENTITY CASCADE");
+            jdbcTemplate.execute("TRUNCATE TABLE upload_history RESTART IDENTITY CASCADE");
+            jdbcTemplate.execute("TRUNCATE TABLE batch_job_run RESTART IDENTITY CASCADE");
+            return ResponseEntity.ok(Map.of("message", "All database tables cleared successfully"));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Failed to clear database: " + ex.getMessage()));
+        }
+    }
+
     private String cleanString(String value) {
         if (value == null || value.trim().isEmpty()) {
             return "UNKNOWN";

@@ -131,6 +131,26 @@
     </mat-card-content>
   </mat-card>
 
+  <!-- Data Cleanup Section -->
+  <mat-card class="settings-card danger-zone">
+    <mat-card-header>
+      <mat-icon fontSet="material-symbols-outlined" mat-card-avatar class="danger-icon">delete_forever</mat-icon>
+      <mat-card-title class="danger-text">Data Cleanup</mat-card-title>
+      <mat-card-subtitle>Permanently delete all business metrics and sales history.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="settings-content">
+      <div class="setting-item">
+        <div class="setting-text">
+          <div class="setting-title danger-text">Clear Database Data</div>
+          <div class="setting-desc text-muted">This will erase raw sales data, metrics summaries, upload history, and logs. This cannot be undone.</div>
+        </div>
+        <button mat-flat-button color="warn" (click)="clearDatabase()" [disabled]="isClearing()">
+          {{ isClearing() ? 'Clearing...' : 'Clear All Data' }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <div class="actions-row">
     <button mat-stroked-button (click)="resetDefaults()">
       Reset Defaults

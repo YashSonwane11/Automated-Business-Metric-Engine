@@ -49,4 +49,10 @@ export class UploadService {
       catchError((error) => throwError(() => error))
     );
   }
+
+  clearAllData(): Observable<any> {
+    return this.http.post<any>(`${environment.apiBaseUrl}/api/uploads/clear`, {}).pipe(
+      catchError((error) => throwError(() => error))
+    );
+  }
 }
